@@ -1,4 +1,4 @@
-# Contador_Projeto_DIO
+# Contador-Projeto-DIO
 
 ## Projeto da Dio - Aula Introdução ao Javascript
 

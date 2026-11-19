@@ -1,0 +1,441 @@
+/*
+ * Open Sans (SIL OFL 1.1), servida do próprio site em public/fonts/.
+ * `font-display: optional`: se a fonte não estiver pronta na primeira pintura, a página fica com a
+ * fonte do sistema até a próxima visita, em vez de trocar de fonte no meio e "pular" o layout.
+ * O index.html pré-carrega os arquivos para ela quase sempre estar pronta a tempo.
+ */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: optional;
+  src: url('/fonts/open-sans-latin-300.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: optional;
+  src: url('/fonts/open-sans-latin-600.woff2') format('woff2');
+}
+
+/* ---------- Tokens de design ---------- */
+:root {
+  --bg: #b1e1ff;
+  --card: #ffffff;
+  --text: #1b2a3a;
+  --muted: #475a6e; /* 5,1:1 sobre o fundo azul e 7:1 sobre o cartão (mínimo AA: 4,5:1) */
+  --accent: #f08080; /* coral original do projeto */
+  --accent-strong: #a8323a; /* coral escuro: texto com contraste adequado */
+  --accent-soft: #fde8e8;
+  --negative: #c62828;
+  --track: #dbe7f1;
+  --field-border: #8ea3b8;
+  --focus: #285aa0;
+  --shadow: 0 10px 30px rgb(27 42 58 / 15%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1726;
+    --card: #16263d;
+    --text: #e8f1fb;
+    --muted: #9db2c8;
+    --accent-strong: #ffb3b3;
+    --accent-soft: #3a2630;
+    --negative: #ff7b7b;
+    --track: #263a55;
+    --field-border: #6a82a0;
+    --focus: #8ec1ff;
+    --shadow: 0 10px 30px rgb(0 0 0 / 45%);
+  }
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-height: 100vh;
+  margin: 0;
+  padding: 24px 16px;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Open Sans', system-ui, sans-serif;
+  /* Explícito de propósito: o "normal" muda de uma fonte para outra e faria o layout pular
+     quando a Open Sans substitui a fonte do sistema. */
+  line-height: 1.5;
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 1.75rem;
+  line-height: 1.25;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- Cartão ---------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 420px);
+  padding: 32px 24px;
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.lead {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+/* ---------- Contadores (chips) ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  min-height: 36px; /* reserva a altura da fileira: o JS preenche depois e o layout não pula */
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 4px 14px;
+  border: 1px solid var(--field-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.chip[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+/* Etiqueta própria para o valor: sem ela, "Contador 1" + "3" se lê como "Contador 13". */
+.chip-value {
+  min-width: 1.8em;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentcolor 10%, transparent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.chip-add {
+  min-width: 36px;
+  justify-content: center;
+  padding: 4px 10px;
+  font-size: 1.1rem;
+}
+
+/* ---------- Contador ---------- */
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+output {
+  min-width: 2.8em; /* em (e não ch): a largura não depende de qual fonte está ativa */
+  font-size: 2.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums; /* dígitos com largura fixa: o layout não "pula" */
+  line-height: 1.2;
+  transition: color 0.2s;
+}
+
+output.negative {
+  color: var(--negative);
+}
+
+output.bump {
+  animation: bump 0.18s ease-out;
+}
+
+@keyframes bump {
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* ---------- Botões ---------- */
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.round {
+  width: 56px; /* alvo de toque confortável (>= 44px) */
+  height: 56px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    transform 0.1s,
+    filter 0.15s;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.round:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+.round:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.ghost,
+.primary {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.ghost {
+  border: 1px solid var(--track);
+  background: transparent;
+  color: var(--muted);
+}
+
+.ghost:hover:not(:disabled) {
+  border-color: var(--muted);
+  color: var(--text);
+}
+
+.primary {
+  border: 1px solid var(--accent-strong);
+  background: var(--accent-strong);
+  color: var(--card);
+  font-weight: 600;
+}
+
+.danger {
+  color: var(--negative);
+}
+
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- Barra de posição ---------- */
+.track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  margin-top: 28px;
+  border-radius: 999px;
+  background: var(--track);
+}
+
+.track-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.2s ease-out;
+}
+
+.track-zero {
+  position: absolute;
+  top: -4px;
+  width: 2px;
+  height: 16px;
+  background: var(--muted);
+  opacity: 0.6;
+}
+
+.track-thumb {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border: 3px solid var(--card);
+  border-radius: 50%;
+  background: var(--accent-strong);
+  transform: translate(-50%, -50%);
+  transition: left 0.2s ease-out;
+}
+
+.limits {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Textos de apoio ---------- */
+.message {
+  min-height: 1.5em; /* reserva o espaço para o layout não pular */
+  margin: 12px 0 0;
+  color: var(--accent-strong);
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* Cada atalho quebra de linha como um bloco só (nunca separa "Ctrl" de "+ Z"). */
+.shortcuts > span {
+  white-space: nowrap;
+}
+
+kbd {
+  padding: 1px 6px;
+  border: 1px solid var(--track);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+/* ---------- Configurações ---------- */
+.settings {
+  width: 100%;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid var(--track);
+  text-align: left;
+}
+
+.settings summary {
+  color: var(--muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.settings form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.field input {
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid var(--field-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.form-error,
+.form-status,
+.form-actions {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.form-error {
+  color: var(--negative);
+}
+
+.form-status {
+  color: var(--muted);
+}
+
+.form-error:empty,
+.form-status:empty {
+  display: none;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+footer {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer a {
+  color: var(--accent-strong);
+}
+
+/* ---------- Preferências do usuário ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

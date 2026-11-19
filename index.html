@@ -1,22 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/style.css" />
-            <title>Projeto DIO - Contador de Números</title>
-    </head>
-    <body>
-        <h1>Contador</h1>
-        <p>Clique nos botões para subtrair ou adicionar ao contador</p>
-        <div id="counter">
-            <button name="subtrair" id="decrement">-</button>
-            <span id="currentNumber">0</span>
-            <button name="adicionar" id="increment">+</button>
-        </div>
-        <script src="assets/scripts.js"></script>
-        <footer>
-            <p>Desenvolvedor: <a href="https://github.com/Valmario"> Valmário Lopes </a></p>
-        </footer>
-</body>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Contador de números em TypeScript, com limites configuráveis, desfazer/refazer, vários contadores e modo offline. Projeto da DIO."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#b1e1ff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d1726" media="(prefers-color-scheme: dark)" />
+    <link
+      rel="preload"
+      href="./fonts/open-sans-latin-300.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="./fonts/open-sans-latin-600.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon-192.png" />
+    <title>Contador de Números | Projeto DIO</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Contador</h1>
+      <p class="lead">Clique nos botões para subtrair ou adicionar ao contador.</p>
+
+      <div id="counters" class="chips" role="group" aria-label="Contadores"></div>
+
+      <div class="counter">
+        <button type="button" id="decrement" class="round" aria-label="Subtrair">−</button>
+        <output id="value" aria-live="polite">0</output>
+        <button type="button" id="increment" class="round" aria-label="Adicionar">+</button>
+      </div>
+
+      <div class="track" aria-hidden="true">
+        <div class="track-fill" id="track-fill"></div>
+        <div class="track-zero" id="track-zero"></div>
+        <div class="track-thumb" id="track-thumb"></div>
+      </div>
+      <div class="limits" aria-hidden="true">
+        <span id="limit-min">-10</span>
+        <span id="limit-max">10</span>
+      </div>
+
+      <p id="message" class="message" role="status"></p>
+
+      <div class="actions">
+        <button type="button" id="undo" class="ghost">Desfazer</button>
+        <button type="button" id="redo" class="ghost">Refazer</button>
+        <button type="button" id="reset" class="ghost">Zerar</button>
+      </div>
+
+      <details class="settings">
+        <summary>Configurações</summary>
+        <form id="settings-form" novalidate>
+          <label class="field field-wide">
+            <span>Nome do contador</span>
+            <input id="cfg-name" type="text" maxlength="24" autocomplete="off" />
+          </label>
+          <label class="field">
+            <span>Mínimo</span>
+            <input id="cfg-min" type="number" step="1" inputmode="numeric" />
+          </label>
+          <label class="field">
+            <span>Máximo</span>
+            <input id="cfg-max" type="number" step="1" inputmode="numeric" />
+          </label>
+          <label class="field">
+            <span>Passo</span>
+            <input id="cfg-step" type="number" step="1" min="1" inputmode="numeric" />
+          </label>
+
+          <p id="settings-error" class="form-error" role="alert"></p>
+          <p id="settings-status" class="form-status" role="status"></p>
+
+          <div class="form-actions">
+            <button type="submit" class="primary">Aplicar</button>
+            <button type="button" id="restore-defaults" class="ghost">Restaurar padrão</button>
+            <button type="button" id="remove" class="ghost danger">Remover contador</button>
+          </div>
+        </form>
+      </details>
+
+      <p class="shortcuts">
+        <span>Atalhos:</span>
+        <span><kbd>↑</kbd> <kbd>→</kbd> somam</span>
+        <span><kbd>↓</kbd> <kbd>←</kbd> subtraem</span>
+        <span><kbd>0</kbd> zera</span>
+        <span><kbd>Ctrl</kbd>+<kbd>Z</kbd> desfaz</span>
+        <span><kbd>Ctrl</kbd>+<kbd>Y</kbd> refaz</span>
+      </p>
+      <p class="shortcuts"><span>Segure + ou − para repetir mais rápido.</span></p>
+    </main>
+
+    <footer>
+      <p>Desenvolvedor: <a href="https://github.com/Valmario">Valmário Lopes</a></p>
+    </footer>
+  </body>
 </html>

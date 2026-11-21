@@ -11,10 +11,9 @@ Contador feito com **TypeScript e Vite**, sem frameworks. Nasceu como projeto da
   <img src="docs/demo.gif" alt="Demonstração: o contador sobe até o limite 10, volta, fica vermelho em negativos, ganha um segundo contador e troca para o tema escuro" width="320">
 </p>
 
-**Demo:** <https://valmario.github.io/Contador_Projeto_DIO/> (disponível depois de ativar o GitHub Pages, veja [Publicação](#publicação))
+**Demo:** <https://valmario.github.io/Contador_Projeto_DIO/>
 
 <p align="center">
-  <img src="docs/screenshot-light.png" alt="Tema claro" width="240">
   <img src="docs/screenshot-dark.png" alt="Tema escuro" width="240">
   <img src="docs/screenshot-mobile.png" alt="Celular, com as configurações abertas" width="160">
 </p>
